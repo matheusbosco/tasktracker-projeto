@@ -1,5 +1,23 @@
 """TaskTracker: aplicação CLI para cadastro e visualização de tarefas."""
 
+# Entradas aceitas (em minúsculas) mapeadas para a forma canônica salva na tarefa
+PRIORIDADES_VALIDAS = {
+    "alta": "Alta",
+    "média": "Média",
+    "media": "Média",
+    "baixa": "Baixa",
+}
+
+
+def validar_titulo(titulo: str) -> bool:
+    """Retorna True se o título não for vazio nem composto só de espaços."""
+    return titulo.strip() != ""
+
+
+def validar_prioridade(prioridade: str) -> str | None:
+    """Retorna a prioridade na forma canônica, ou None se for inválida."""
+    return PRIORIDADES_VALIDAS.get(prioridade.strip().lower())
+
 
 def exibir_menu() -> None:
     """Exibe as opções do menu principal."""
