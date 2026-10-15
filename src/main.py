@@ -27,14 +27,52 @@ def exibir_menu() -> None:
     print("3. Sair da aplicação")
 
 
+def ler_titulo() -> str:
+    """Pede o título até que um valor não vazio seja informado."""
+    while True:
+        titulo = input("Título: ")
+        if validar_titulo(titulo):
+            return titulo.strip()
+        print("Erro: o título é obrigatório e não pode ficar vazio.")
+
+
+def ler_prioridade() -> str:
+    """Pede a prioridade até que Alta, Média/Media ou Baixa seja informada."""
+    while True:
+        prioridade = validar_prioridade(input("Prioridade (Alta, Média ou Baixa): "))
+        if prioridade is not None:
+            return prioridade
+        print("Erro: prioridade inválida. Use apenas Alta, Média ou Baixa.")
+
+
 def cadastrar_tarefa(tarefas: list[dict]) -> None:
-    """Cadastra uma nova tarefa (em construção)."""
-    print("\n[Em construção] Cadastro de tarefas.")
+    """Coleta os dados, cria a tarefa com status Pendente e a adiciona à lista."""
+    print("\n--- Cadastrar nova tarefa ---")
+    tarefa = {
+        "titulo": ler_titulo(),
+        "descricao": input("Descrição (opcional): ").strip(),
+        "prioridade": ler_prioridade(),
+        "data_limite": input("Data limite (DD/MM/AAAA ou texto livre): ").strip(),
+        "status": "Pendente",
+    }
+    tarefas.append(tarefa)
+    print(f"\nTarefa \"{tarefa['titulo']}\" cadastrada com sucesso!")
 
 
 def listar_tarefas(tarefas: list[dict]) -> None:
-    """Exibe as tarefas cadastradas (em construção)."""
-    print("\n[Em construção] Listagem de tarefas.")
+    """Exibe todas as tarefas com seus campos, ou avisa se não houver nenhuma."""
+    print("\n--- Tarefas cadastradas ---")
+    if not tarefas:
+        print("Nenhuma tarefa cadastrada no momento.")
+        return
+    for numero, tarefa in enumerate(tarefas, start=1):
+        print(f"\nTarefa {numero}")
+        print(f"  Título:      {tarefa['titulo']}")
+        print(f"  Descrição:   {tarefa['descricao'] or '(sem descrição)'}")
+        print(f"  Prioridade:  {tarefa['prioridade']}")
+        print(f"  Data limite: {tarefa['data_limite'] or '(não informada)'}")
+        print(f"  Status:      {tarefa['status']}")
+    print(f"\nTotal: {len(tarefas)} tarefa(s).")
 
 
 def main() -> None:
